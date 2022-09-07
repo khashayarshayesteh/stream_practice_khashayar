@@ -4,6 +4,7 @@ import com.cydeo.streampractice.model.*;
 import com.cydeo.streampractice.service.*;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -357,32 +358,45 @@ public class Practice {
     // Display all the job histories in ascending order by start date
     public static List<JobHistory> getAllJobHistoriesInAscendingOrder() {
 
-        return new ArrayList<>();
+        return getAllJobHistories().stream().sorted(Comparator.comparing(JobHistory::getStartDate))
+                .collect(Collectors.toList());
     }
 
     // Display all the job histories in descending order by start date
     public static List<JobHistory> getAllJobHistoriesInDescendingOrder() {
-        //TODO Implement the method
-        return new ArrayList<>();
+
+        return getAllJobHistories().stream().sorted(Comparator.comparing(JobHistory::getStartDate).reversed())
+                .collect(Collectors.toList());
     }
 
     // Display all the job histories where the start date is after 01.01.2005
     public static List<JobHistory> getAllJobHistoriesStartDateAfterFirstDayOfJanuary2005() {
-        //TODO Implement the method
-        return new ArrayList<>();
+
+        return getAllJobHistories().stream().
+                filter(jobHistory -> jobHistory.getStartDate().isAfter(LocalDate.of(2005,1,1)))
+                .collect(Collectors.toList());
     }
 
     // Display all the job histories where the end date is 31.12.2007 and the job title of job is 'Programmer'
     public static List<JobHistory> getAllJobHistoriesEndDateIsLastDayOfDecember2007AndJobTitleIsProgrammer() {
-        //TODO Implement the method
-        return new ArrayList<>();
+
+        return getAllJobHistories().stream()
+                .filter(jobHistory -> jobHistory.getEndDate().isBefore(LocalDate.of(2007,12,31)))
+                .filter(job->job.getJob().getJobTitle().equals("Programmer"))
+                .collect(Collectors.toList());
     }
 
     //40 Display the employee whose job history start date is 01.01.2007 and job history end date is 31.12.2007 and department's name is 'Shipping'
     public static Employee getEmployeeOfJobHistoryWhoseStartDateIsFirstDayOfJanuary2007AndEndDateIsLastDayOfDecember2007AndDepartmentNameIsShipping() throws Exception {
-        //TODO Implement the method
-        return new Employee();
+
+        return getAllJobHistories().stream()
+                .filter(jobHistory -> jobHistory.getStartDate().equals(LocalDate.of(2007, 1, 1)))
+                .filter(jobHistory -> jobHistory.getEndDate().isEqual(LocalDate.of(2007, 12, 31)))
+                .filter(jobHistory -> jobHistory.getDepartment().getDepartmentName().equals("Shipping"))
+                .findFirst().get().getEmployee();
+
     }
+
 
     // Display all the employees whose first name starts with 'A'
     public static List<Employee> getAllEmployeesFirstNameStartsWithA() {
