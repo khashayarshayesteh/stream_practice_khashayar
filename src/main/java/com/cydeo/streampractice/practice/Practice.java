@@ -400,45 +400,69 @@ public class Practice {
 
     // Display all the employees whose first name starts with 'A'
     public static List<Employee> getAllEmployeesFirstNameStartsWithA() {
-        //TODO Implement the method
-        return new ArrayList<>();
+
+        return getAllEmployees().stream()
+                .filter(employee -> employee.getFirstName().startsWith("A")).collect(Collectors.toList());
     }
 
     // Display all the employees whose job id contains 'IT'
     public static List<Employee> getAllEmployeesJobIdContainsIT() {
-        //TODO Implement the method
-        return new ArrayList<>();
+
+        return getAllEmployees().stream()
+                .filter(employee -> employee.getJob().getId().contains("IT"))
+                .collect(Collectors.toList());
     }
 
     // Display the number of employees whose job title is programmer and department name is 'IT'
     public static Long getNumberOfEmployeesWhoseJobTitleIsProgrammerAndDepartmentNameIsIT() {
-        //TODO Implement the method
-        return 1L;
+
+        return getAllEmployees().stream().filter(employee -> employee.getJob().getJobTitle().equals("Programmer"))
+                .filter(employee -> employee.getDepartment().getDepartmentName().equals("IT"))
+                .count();
     }
 
     // Display all the employees whose department id is 50, 80, or 100
     public static List<Employee> getAllEmployeesDepartmentIdIs50or80or100() {
-        //TODO Implement the method
-        return new ArrayList<>();
+
+        return getAllEmployees().stream().filter(employee -> employee.getDepartment().getId().equals(50L) ||
+         employee.getDepartment().getId().equals(80l) ||
+      employee.getDepartment().getId().equals(100l))
+                .collect(Collectors.toList());
+
     }
 
     //45 Display the initials of all the employees
     // Note: You can assume that there is no middle name
     public static List<String> getAllEmployeesInitials() {
-        //TODO Implement the method
-        return new ArrayList<>();
+
+        return getAllEmployees().stream()
+                .map(employee -> {
+                    String firstInitial = employee.getFirstName().substring(0,1);
+                    String secondInitial = employee.getLastName().substring(0,1);
+                    return firstInitial+secondInitial;
+                }).collect(Collectors.toList());
+
     }
 
     // Display the full names of all the employees
     public static List<String> getAllEmployeesFullNames() {
         //TODO Implement the method
-        return new ArrayList<>();
+        return getAllEmployees().stream()
+                .map(employee -> {
+                    String first = employee.getFirstName();
+                    String last = employee.getLastName();
+                   return first+" " + last;
+                }).collect(Collectors.toList());
     }
 
     // Display the length of the longest full name(s)
     public static Integer getLongestNameLength() throws Exception {
-        //TODO Implement the method
-        return 1;
+
+        return getAllEmployeesFullNames().stream()
+                .max(Comparator.comparing(String::length))
+                .get().length();
+
+
     }
 
     // Display the employee(s) with the longest full name(s)
